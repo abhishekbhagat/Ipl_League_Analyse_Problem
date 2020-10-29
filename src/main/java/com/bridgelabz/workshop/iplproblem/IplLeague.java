@@ -92,6 +92,7 @@ public class IplLeague {
 		String sortedPlayerOnStrikeRateWith6s = new Gson().toJson(batsmanList);
 		return sortedPlayerOnStrikeRateWith6s;
 	}
+	
 	public String sortPlayerOnBestAverageRateWithStrikeRate() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -99,7 +100,29 @@ public class IplLeague {
 		String sortedPlayer = new Gson().toJson(batsmanList);
 		return sortedPlayer;
 	}
+	
+	public String sortPlayerMaximumRunWithBestAverage() throws IplAnalyserException {
+		if (batsmanList == null || batsmanList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(batsmanList, new SortingOnMaximumRunWithBestAverageComparator());
+		String sortedPlayer = new Gson().toJson(batsmanList);
+		return sortedPlayer;
+	}
+	public static class SortingOnMaximumRunWithBestAverageComparator implements Comparator<IplBattingCsv> {
+		@Override
+		public int compare(IplBattingCsv player1, IplBattingCsv player2) {
+			int maximumRun = player1.getRuns().compareTo(player2.getRuns());
+			int averageCompare = player1.getAverage().compareTo(player2.getAverage());
 
+			// 2-level comparison using if-else block
+			if (maximumRun == 0) {
+				return ((averageCompare == 0) ? maximumRun : averageCompare);
+			} else {
+				return maximumRun;
+			}
+		}
+	}
+	
 	public static class SortingOnBestStrikeRateWith6sComparator implements Comparator<IplBattingCsv> {
 		@Override
 		public int compare(IplBattingCsv customer1, IplBattingCsv customer2) {

@@ -59,7 +59,7 @@ public class IplBattingCsv {
 	public void setNo(Integer no) {
 		this.no = no;
 	}
-	public int getRuns() {
+	public Integer getRuns() {
 		return runs;
 	}
 	public void setRuns(Integer runs) {
