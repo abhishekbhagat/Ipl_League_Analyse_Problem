@@ -13,6 +13,7 @@ public class IplLeagueTest {
 	 * uc1
 	 * 
 	 */
+	
 	@Test
 	public void givenIplBatsmanPlayerData_WhenSortedOnAverage_ShouldReturnSortedResult() {
 		try {
@@ -84,6 +85,20 @@ public class IplLeagueTest {
 			String sortedCensusData = iplAnalyser.sortPlayerOnBestStrikeRateWith6s();
 			IplBattingCsv[] sortedAverageList = new Gson().fromJson(sortedCensusData, IplBattingCsv[].class);
 			Assert.assertEquals("Ishant Sharma", sortedAverageList[100].getPlayerName());
+
+		} catch (IplAnalyserException e) {
+			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);
+		}
+	}
+	
+	@Test
+	public void givenIplBatsmanPlayerData_WhenSortedOnBestAverageRateWithStrikeRate_ShouldReturnSortedResult() {
+		try {
+			IplLeague iplAnalyser = new IplLeague();
+			iplAnalyser.loadIplBattingData(IPL_BATTINGCV_FILE_PATH);
+			String sortedCensusData = iplAnalyser.sortPlayerOnBestAverageRateWithStrikeRate();
+			IplBattingCsv[] sortedList = new Gson().fromJson(sortedCensusData, IplBattingCsv[].class);
+			Assert.assertEquals("MS Dhoni", sortedList[100].getPlayerName());
 
 		} catch (IplAnalyserException e) {
 			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);

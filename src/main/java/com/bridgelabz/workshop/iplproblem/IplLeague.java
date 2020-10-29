@@ -92,6 +92,13 @@ public class IplLeague {
 		String sortedPlayerOnStrikeRateWith6s = new Gson().toJson(batsmanList);
 		return sortedPlayerOnStrikeRateWith6s;
 	}
+	public String sortPlayerOnBestAverageRateWithStrikeRate() throws IplAnalyserException {
+		if (batsmanList == null || batsmanList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(batsmanList, new SortingOnBestAverageRateWithStrikeRateComparator());
+		String sortedPlayer = new Gson().toJson(batsmanList);
+		return sortedPlayer;
+	}
 
 	public static class SortingOnBestStrikeRateWith6sComparator implements Comparator<IplBattingCsv> {
 		@Override
@@ -106,6 +113,22 @@ public class IplLeague {
 				return ((sixCompare == 0) ? strikeRateCompare : sixCompare);
 			} else {
 				return strikeRateCompare;
+			}
+		}
+	}
+	public static class SortingOnBestAverageRateWithStrikeRateComparator implements Comparator<IplBattingCsv> {
+		@Override
+		public int compare(IplBattingCsv customer1, IplBattingCsv customer2) {
+
+			// for comparison
+			int averageCompare = customer1.getAverage().compareTo(customer2.getAverage());
+			int strikeRateCompare = customer1.getStrikeRate().compareTo(customer2.getStrikeRate());
+
+			// 2-level comparison using if-else block
+			if (averageCompare == 0) {
+				return ((strikeRateCompare == 0) ? strikeRateCompare : strikeRateCompare);
+			} else {
+				return averageCompare;
 			}
 		}
 	}
