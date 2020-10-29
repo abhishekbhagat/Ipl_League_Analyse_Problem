@@ -62,8 +62,26 @@ public class IplLeague {
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
 		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.strikeRate);
 		this.sortdesc(batsmanList, comparator);
-		String sortedAverageBatsman = new Gson().toJson(batsmanList);
-		return sortedAverageBatsman;
+		String sortedStrikeRateBatsman = new Gson().toJson(batsmanList);
+		return sortedStrikeRateBatsman;
+	}
+
+	public String sortPlayerOn6s() throws IplAnalyserException {
+		if (batsmanList == null || batsmanList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.six);
+		this.sortdesc(batsmanList, comparator);
+		String sorted6sBatsman = new Gson().toJson(batsmanList);
+		return sorted6sBatsman;
+	}
+
+	public String sortPlayerOn4s() throws IplAnalyserException {
+		if (batsmanList == null || batsmanList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.four);
+		this.sortdesc(batsmanList, comparator);
+		String sorted4sBatsman = new Gson().toJson(batsmanList);
+		return sorted4sBatsman;
 	}
 
 }
