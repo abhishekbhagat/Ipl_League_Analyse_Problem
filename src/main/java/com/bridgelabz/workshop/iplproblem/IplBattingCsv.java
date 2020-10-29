@@ -6,30 +6,30 @@ public class IplBattingCsv {
 	@CsvBindByName(column = "PLAYER")
 	public String playerName;
 	@CsvBindByName(column = "Mat")
-	public int mat;
+	public Integer mat;
 	@CsvBindByName(column = "Inns")
-	public int inns;
+	public Integer inns;
 	@CsvBindByName(column = "NO")
-	public int no;
+	public Integer no;
 	@CsvBindByName(column = "Runs")
-	public int runs;
+	public Integer runs;
 	@CsvBindByName(column = "HS")
 	public String highestScore;
 	@CsvBindByName(column = "Avg")
-	public float average;
+	public Float average;
 	@CsvBindByName(column = "BF")
-	public int bf;
+	public Integer bf;
 	@CsvBindByName(column = "SR")
-	public float strikeRate ;
+	public Float strikeRate ;
 	@CsvBindByName(column = "100")
-	public int hundred;
+	public Integer hundred;
 	@CsvBindByName(column = "50")
-	public int fifty;
+	public Integer fifty;
 	@CsvBindByName(column = "4s")
-	public int four;
+	public Integer four;
 	@CsvBindByName(column = "6s")
-	public int six;
-	public int getPos() {
+	public Integer six;
+	public Integer getPos() {
 		return pos;
 	}
 	public void setPos(int pos) {
@@ -41,28 +41,28 @@ public class IplBattingCsv {
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
 	}
-	public int getMat() {
+	public Integer getMat() {
 		return mat;
 	}
 	public void setMat(int mat) {
 		this.mat = mat;
 	}
-	public int getInns() {
+	public Integer getInns() {
 		return inns;
 	}
-	public void setInns(int inns) {
+	public void setInns(Integer inns) {
 		this.inns = inns;
 	}
-	public int getNo() {
+	public Integer getNo() {
 		return no;
 	}
-	public void setNo(int no) {
+	public void setNo(Integer no) {
 		this.no = no;
 	}
 	public int getRuns() {
 		return runs;
 	}
-	public void setRuns(int runs) {
+	public void setRuns(Integer runs) {
 		this.runs = runs;
 	}
 	public String getHighestScore() {
@@ -71,46 +71,46 @@ public class IplBattingCsv {
 	public void setHighestScore(String highestScore) {
 		this.highestScore = highestScore;
 	}
-	public float getAverage() {
+	public Float getAverage() {
 		return average;
 	}
-	public void setAverage(float average) {
+	public void setAverage(Float average) {
 		this.average = average;
 	}
-	public int getBf() {
+	public Integer getBf() {
 		return bf;
 	}
-	public void setBf(int bf) {
+	public void setBf(Integer bf) {
 		this.bf = bf;
 	}
-	public float getStrikeRate() {
+	public Float getStrikeRate() {
 		return strikeRate;
 	}
-	public void setStrikeRate(float strikeRate) {
+	public void setStrikeRate(Float strikeRate) {
 		this.strikeRate = strikeRate;
 	}
-	public int getHundred() {
+	public Integer getHundred() {
 		return hundred;
 	}
-	public void setHundred(int hundred) {
+	public void setHundred(Integer hundred) {
 		this.hundred = hundred;
 	}
-	public int getFifty() {
+	public Integer getFifty() {
 		return fifty;
 	}
-	public void setFifty(int fifty) {
+	public void setFifty(Integer fifty) {
 		this.fifty = fifty;
 	}
-	public int getFour() {
+	public Integer getFour() {
 		return four;
 	}
-	public void setFour(int four) {
+	public void setFour(Integer four) {
 		this.four = four;
 	}
-	public int getSix() {
+	public Integer getSix() {
 		return six;
 	}
-	public void setSix(int six) {
+	public void setSix(Integer six) {
 		this.six = six;
 	}
 	@Override

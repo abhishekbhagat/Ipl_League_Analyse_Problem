@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -82,6 +83,31 @@ public class IplLeague {
 		this.sortdesc(batsmanList, comparator);
 		String sorted4sBatsman = new Gson().toJson(batsmanList);
 		return sorted4sBatsman;
+	}
+
+	public String sortPlayerOnBestStrikeRateWith6s() throws IplAnalyserException {
+		if (batsmanList == null || batsmanList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(batsmanList, new SortingOnBestStrikeRateWith6sComparator());
+		String sortedPlayerOnStrikeRateWith6s = new Gson().toJson(batsmanList);
+		return sortedPlayerOnStrikeRateWith6s;
+	}
+
+	public static class SortingOnBestStrikeRateWith6sComparator implements Comparator<IplBattingCsv> {
+		@Override
+		public int compare(IplBattingCsv customer1, IplBattingCsv customer2) {
+
+			// for comparison
+			int strikeRateCompare = customer1.getStrikeRate().compareTo(customer2.getStrikeRate());
+			int sixCompare = customer1.getSix().compareTo(customer2.getSix());
+
+			// 2-level comparison using if-else block
+			if (strikeRateCompare == 0) {
+				return ((sixCompare == 0) ? strikeRateCompare : sixCompare);
+			} else {
+				return strikeRateCompare;
+			}
+		}
 	}
 
 }
