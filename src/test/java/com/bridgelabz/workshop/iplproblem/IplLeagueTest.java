@@ -23,6 +23,19 @@ public class IplLeagueTest {
 	}
 
 	@Test
+	public void givenIplBowlingPlayerData_WhenSortedOnStrike_ShouldReturnSortedResult() {
+		try {
+			IplLeague iplAnalyser = new IplLeague();
+			iplAnalyser.loadIplBowlingData(IPL_BOWLING_CSVFILE_PATH);
+			String sortedCensusData = iplAnalyser.sortBowlerPlayerOnStrikeRate();
+			IplBowlingCsv[] sortedAverageList = new Gson().fromJson(sortedCensusData, IplBowlingCsv[].class);
+			Assert.assertEquals(120f, sortedAverageList[0].getStrikeRate(), 0.0);
+		} catch (IplAnalyserException e) {
+			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);
+		}
+	}
+
+	@Test
 	public void givenIplBatsmanPlayerData_WhenSortedOnAverage_ShouldReturnSortedResult() {
 		try {
 			IplLeague iplAnalyser = new IplLeague();

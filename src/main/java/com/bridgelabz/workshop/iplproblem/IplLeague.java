@@ -67,13 +67,22 @@ public class IplLeague {
 		return sortedAverageBatsman;
 	}
 
+	public String sortBowlerPlayerOnStrikeRate() throws IplAnalyserException {
+		if (bowlingList == null || bowlingList.size() == 0)
+			throw new IplAnalyserException("No Bowler Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Comparator<IplBowlingCsv> comparator = Comparator.comparing(census -> census.strikeRate);
+		this.sortdesc(bowlingList, comparator);
+		String sorted = new Gson().toJson(bowlingList);
+		return sorted;
+	}
+
 	public String sortBowlerPlayerOnAverage() throws IplAnalyserException {
 		if (bowlingList == null || bowlingList.size() == 0)
 			throw new IplAnalyserException("No Bowler Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
 		Comparator<IplBowlingCsv> comparator = Comparator.comparing(census -> census.average);
 		this.sortdesc(bowlingList, comparator);
-		String sortedAverageBatsman = new Gson().toJson(bowlingList);
-		return sortedAverageBatsman;
+		String sortedAverageBowler = new Gson().toJson(bowlingList);
+		return sortedAverageBowler;
 	}
 
 	public String sortPlayerOnStrikeRate() throws IplAnalyserException {
@@ -175,5 +184,4 @@ public class IplLeague {
 			}
 		}
 	}
-
 }
