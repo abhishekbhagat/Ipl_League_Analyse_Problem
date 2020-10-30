@@ -11,11 +11,20 @@ import java.util.List;
 import com.google.gson.Gson;
 
 public class IplLeague {
-	public static final String IPL_BATTINGCV_FILE_PATH = "C:\\Users\\abhis\\eclipse-workspace\\workshop.iplproblem\\resource\\IPL2019FactsheetMostRuns.csv";
 	private static List<IplBattingCsv> batsmanList = null;
+	private static List<IplBowlingCsv> bowlingList = null;
+
+	public int loadIplBowlingData(String csvFilePath) throws IplAnalyserException {
+		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+			bowlingList = new OpenCSVBuilder().getCSVFileList(reader, IplBowlingCsv.class);
+			return bowlingList.size();
+		} catch (IOException e) {
+			throw new IplAnalyserException(e.getMessage(), IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		}
+	}
 
 	public int loadIplBattingData(String csvFilePath) throws IplAnalyserException {
-		try (Reader reader = Files.newBufferedReader(Paths.get(IPL_BATTINGCV_FILE_PATH))) {
+		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
 			batsmanList = new OpenCSVBuilder().getCSVFileList(reader, IplBattingCsv.class);
 			return batsmanList.size();
 		} catch (IOException e) {
@@ -23,27 +32,27 @@ public class IplLeague {
 		}
 	}
 
-	private <E> void sort(List<E> batsmanList, Comparator<E> comparator) {
-		for (int i = 0; i < batsmanList.size() - 1; i++) {
-			for (int j = 0; j < batsmanList.size() - i - 1; j++) {
-				E census1 = batsmanList.get(i);
-				E census2 = batsmanList.get(j + 1);
+	private <E> void sort(List<E> playerList, Comparator<E> comparator) {
+		for (int i = 0; i < playerList.size() - 1; i++) {
+			for (int j = 0; j < playerList.size() - i - 1; j++) {
+				E census1 = playerList.get(i);
+				E census2 = playerList.get(j + 1);
 				if (comparator.compare(census1, census2) > 0) {
-					batsmanList.set(i, census2);
-					batsmanList.set(j + 1, census1);
+					playerList.set(i, census2);
+					playerList.set(j + 1, census1);
 				}
 			}
 		}
 	}
 
-	private <E> void sortdesc(List<E> batsmanList, Comparator<E> comparator) {
-		for (int i = 0; i < batsmanList.size() - 1; i++) {
-			for (int j = 0; j < batsmanList.size() - i - 1; j++) {
-				E census1 = batsmanList.get(i);
-				E census2 = batsmanList.get(j + 1);
+	private <E> void sortdesc(List<E> playerList, Comparator<E> comparator) {
+		for (int i = 0; i < playerList.size() - 1; i++) {
+			for (int j = 0; j < playerList.size() - i - 1; j++) {
+				E census1 = playerList.get(i);
+				E census2 = playerList.get(j + 1);
 				if (comparator.compare(census1, census2) < 0) {
-					batsmanList.set(i, census2);
-					batsmanList.set(j + 1, census1);
+					playerList.set(i, census2);
+					playerList.set(j + 1, census1);
 				}
 			}
 		}
@@ -55,6 +64,15 @@ public class IplLeague {
 		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.average);
 		this.sortdesc(batsmanList, comparator);
 		String sortedAverageBatsman = new Gson().toJson(batsmanList);
+		return sortedAverageBatsman;
+	}
+
+	public String sortBowlerPlayerOnAverage() throws IplAnalyserException {
+		if (bowlingList == null || bowlingList.size() == 0)
+			throw new IplAnalyserException("No Bowler Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Comparator<IplBowlingCsv> comparator = Comparator.comparing(census -> census.average);
+		this.sortdesc(bowlingList, comparator);
+		String sortedAverageBatsman = new Gson().toJson(bowlingList);
 		return sortedAverageBatsman;
 	}
 
@@ -92,7 +110,7 @@ public class IplLeague {
 		String sortedPlayerOnStrikeRateWith6s = new Gson().toJson(batsmanList);
 		return sortedPlayerOnStrikeRateWith6s;
 	}
-	
+
 	public String sortPlayerOnBestAverageRateWithStrikeRate() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -100,7 +118,7 @@ public class IplLeague {
 		String sortedPlayer = new Gson().toJson(batsmanList);
 		return sortedPlayer;
 	}
-	
+
 	public String sortPlayerMaximumRunWithBestAverage() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -108,6 +126,7 @@ public class IplLeague {
 		String sortedPlayer = new Gson().toJson(batsmanList);
 		return sortedPlayer;
 	}
+
 	public static class SortingOnMaximumRunWithBestAverageComparator implements Comparator<IplBattingCsv> {
 		@Override
 		public int compare(IplBattingCsv player1, IplBattingCsv player2) {
@@ -122,7 +141,7 @@ public class IplLeague {
 			}
 		}
 	}
-	
+
 	public static class SortingOnBestStrikeRateWith6sComparator implements Comparator<IplBattingCsv> {
 		@Override
 		public int compare(IplBattingCsv customer1, IplBattingCsv customer2) {
@@ -139,6 +158,7 @@ public class IplLeague {
 			}
 		}
 	}
+
 	public static class SortingOnBestAverageRateWithStrikeRateComparator implements Comparator<IplBattingCsv> {
 		@Override
 		public int compare(IplBattingCsv customer1, IplBattingCsv customer2) {
