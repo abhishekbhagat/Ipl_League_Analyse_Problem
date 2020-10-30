@@ -59,6 +59,20 @@ public class IplLeague {
 	}
 
 	/**
+	 * uc12
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortBowlerPlayerOnWicketWithAverage() throws IplAnalyserException {
+		if (bowlingList == null || bowlingList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(bowlingList, new SortingBowlerPlayerOnWicketWithAverageComparator());
+		String sortedPlayer = new Gson().toJson(bowlingList);
+		return sortedPlayer;
+	}
+
+	/**
 	 * uc11
 	 * 
 	 * @return
@@ -187,7 +201,7 @@ public class IplLeague {
 		String sorted6sBatsman = new Gson().toJson(batsmanList);
 		return sorted6sBatsman;
 	}
-	
+
 	public String sortPlayerOn4s() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -226,6 +240,22 @@ public class IplLeague {
 		String sortedAverageBatsman = new Gson().toJson(batsmanList);
 		return sortedAverageBatsman;
 	}
+
+	public static class SortingBowlerPlayerOnWicketWithAverageComparator implements Comparator<IplBowlingCsv> {
+		@Override
+		public int compare(IplBowlingCsv player1, IplBowlingCsv player2) {
+			int average = player1.getAverage().compareTo(player2.getAverage());
+			int wicket = player1.getWicket().compareTo(player2.getWicket());
+
+			// 2-level comparison using if-else block
+			if (wicket == 0) {
+				return ((average == 0) ? wicket : average);
+			} else {
+				return wicket;
+			}
+		}
+	}
+
 	public static class SortingOnBowlingAverageWithBestStrikeRateComparator implements Comparator<IplBowlingCsv> {
 		@Override
 		public int compare(IplBowlingCsv player1, IplBowlingCsv player2) {
@@ -240,7 +270,6 @@ public class IplLeague {
 			}
 		}
 	}
-	
 
 	public static class SortingOnMaximumRunWithBestAverageComparator implements Comparator<IplBattingCsv> {
 		@Override
