@@ -58,6 +58,26 @@ public class IplLeague {
 		}
 	}
 
+	/**
+	 * uc11
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortBowlerPlayerOnBowlingAverageWithBestStrikeRate() throws IplAnalyserException {
+		if (bowlingList == null || bowlingList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(bowlingList, new SortingOnBowlingAverageWithBestStrikeRateComparator());
+		String sortedPlayer = new Gson().toJson(bowlingList);
+		return sortedPlayer;
+	}
+
+	/**
+	 * uc10
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
 	public String sortBowlerPlayerOnStrikeRateWith5w() throws IplAnalyserException {
 		if (bowlingList == null || bowlingList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -66,6 +86,12 @@ public class IplLeague {
 		return sortedPlayer;
 	}
 
+	/**
+	 * uc9
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
 	public String sortBowlerPlayerOnEconomy() throws IplAnalyserException {
 		if (bowlingList == null || bowlingList.size() == 0)
 			throw new IplAnalyserException("No Bowler Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -75,6 +101,12 @@ public class IplLeague {
 		return sorted;
 	}
 
+	/**
+	 * uc8
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
 	public String sortBowlerPlayerOnStrikeRate() throws IplAnalyserException {
 		if (bowlingList == null || bowlingList.size() == 0)
 			throw new IplAnalyserException("No Bowler Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -84,6 +116,12 @@ public class IplLeague {
 		return sorted;
 	}
 
+	/**
+	 * uc7
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
 	public String sortBowlerPlayerOnAverage() throws IplAnalyserException {
 		if (bowlingList == null || bowlingList.size() == 0)
 			throw new IplAnalyserException("No Bowler Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -93,24 +131,54 @@ public class IplLeague {
 		return sortedAverageBowler;
 	}
 
-	public String sortPlayerOnAverage() throws IplAnalyserException {
+	/**
+	 * uc6
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortPlayerMaximumRunWithBestAverage() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
-		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.average);
-		this.sortdesc(batsmanList, comparator);
-		String sortedAverageBatsman = new Gson().toJson(batsmanList);
-		return sortedAverageBatsman;
+		Collections.sort(batsmanList, new SortingOnMaximumRunWithBestAverageComparator());
+		String sortedPlayer = new Gson().toJson(batsmanList);
+		return sortedPlayer;
 	}
 
-	public String sortPlayerOnStrikeRate() throws IplAnalyserException {
+	/**
+	 * uc5
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortPlayerOnBestAverageRateWithStrikeRate() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
-		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.strikeRate);
-		this.sortdesc(batsmanList, comparator);
-		String sortedStrikeRateBatsman = new Gson().toJson(batsmanList);
-		return sortedStrikeRateBatsman;
+		Collections.sort(batsmanList, new SortingOnBestAverageRateWithStrikeRateComparator());
+		String sortedPlayer = new Gson().toJson(batsmanList);
+		return sortedPlayer;
 	}
 
+	/**
+	 * uc4
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortPlayerOnBestStrikeRateWith6s() throws IplAnalyserException {
+		if (batsmanList == null || batsmanList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(batsmanList, new SortingOnBestStrikeRateWith6sComparator());
+		String sortedPlayerOnStrikeRateWith6s = new Gson().toJson(batsmanList);
+		return sortedPlayerOnStrikeRateWith6s;
+	}
+
+	/**
+	 * uc3
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
 	public String sortPlayerOn6s() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -119,7 +187,7 @@ public class IplLeague {
 		String sorted6sBatsman = new Gson().toJson(batsmanList);
 		return sorted6sBatsman;
 	}
-
+	
 	public String sortPlayerOn4s() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -129,29 +197,50 @@ public class IplLeague {
 		return sorted4sBatsman;
 	}
 
-	public String sortPlayerOnBestStrikeRateWith6s() throws IplAnalyserException {
+	/**
+	 * uc2
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortPlayerOnStrikeRate() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
-		Collections.sort(batsmanList, new SortingOnBestStrikeRateWith6sComparator());
-		String sortedPlayerOnStrikeRateWith6s = new Gson().toJson(batsmanList);
-		return sortedPlayerOnStrikeRateWith6s;
+		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.strikeRate);
+		this.sortdesc(batsmanList, comparator);
+		String sortedStrikeRateBatsman = new Gson().toJson(batsmanList);
+		return sortedStrikeRateBatsman;
 	}
 
-	public String sortPlayerOnBestAverageRateWithStrikeRate() throws IplAnalyserException {
+	/**
+	 * uc1
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortPlayerOnAverage() throws IplAnalyserException {
 		if (batsmanList == null || batsmanList.size() == 0)
 			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
-		Collections.sort(batsmanList, new SortingOnBestAverageRateWithStrikeRateComparator());
-		String sortedPlayer = new Gson().toJson(batsmanList);
-		return sortedPlayer;
+		Comparator<IplBattingCsv> comparator = Comparator.comparing(census -> census.average);
+		this.sortdesc(batsmanList, comparator);
+		String sortedAverageBatsman = new Gson().toJson(batsmanList);
+		return sortedAverageBatsman;
 	}
+	public static class SortingOnBowlingAverageWithBestStrikeRateComparator implements Comparator<IplBowlingCsv> {
+		@Override
+		public int compare(IplBowlingCsv player1, IplBowlingCsv player2) {
+			int average = player1.getAverage().compareTo(player2.getAverage());
+			int strikeRate = player1.getStrikeRate().compareTo(player2.getStrikeRate());
 
-	public String sortPlayerMaximumRunWithBestAverage() throws IplAnalyserException {
-		if (batsmanList == null || batsmanList.size() == 0)
-			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
-		Collections.sort(batsmanList, new SortingOnMaximumRunWithBestAverageComparator());
-		String sortedPlayer = new Gson().toJson(batsmanList);
-		return sortedPlayer;
+			// 2-level comparison using if-else block
+			if (average == 0) {
+				return ((strikeRate == 0) ? average : strikeRate);
+			} else {
+				return average;
+			}
+		}
 	}
+	
 
 	public static class SortingOnMaximumRunWithBestAverageComparator implements Comparator<IplBattingCsv> {
 		@Override
