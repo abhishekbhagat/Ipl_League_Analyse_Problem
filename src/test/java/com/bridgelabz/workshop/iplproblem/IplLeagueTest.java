@@ -8,20 +8,35 @@ import com.google.gson.Gson;
 public class IplLeagueTest {
 	public static final String IPL_BATTINGCV_FILE_PATH = "C:\\Users\\abhis\\eclipse-workspace\\workshop.iplproblem\\resource\\IPL2019FactsheetMostRuns.csv";
 	public static final String IPL_BOWLING_CSVFILE_PATH = "C:\\Users\\abhis\\eclipse-workspace\\workshop.iplproblem\\resource\\IPL2019FactsheetMostWkts.csv";
-    
+
+	@Test
+	public void givenIplBowlingPlayerData_WhenSortedOnBestStrikeRateWith5w_ShouldReturnSortedResult() {
+		try {
+			IplLeague iplAnalyser = new IplLeague();
+			iplAnalyser.loadIplBowlingData(IPL_BOWLING_CSVFILE_PATH);
+			String sortedCensusData = iplAnalyser.sortBowlerPlayerOnStrikeRateWith5w();
+			IplBowlingCsv[] sortedList = new Gson().fromJson(sortedCensusData, IplBowlingCsv[].class);
+
+			Assert.assertEquals("Krishnappa Gowtham", sortedList[98].getPlayerName());
+		} catch (IplAnalyserException e) {
+			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);
+		}
+	}
+
 	@Test
 	public void givenIplBowlingPlayerData_WhenSortedOnEconomy_ShouldReturnSortedResult() {
 		try {
 			IplLeague iplAnalyser = new IplLeague();
 			iplAnalyser.loadIplBowlingData(IPL_BOWLING_CSVFILE_PATH);
 			String sortedCensusData = iplAnalyser.sortBowlerPlayerOnEconomy();
-			IplBowlingCsv[] sortedAverageList = new Gson().fromJson(sortedCensusData, IplBowlingCsv[].class);
-		
-			Assert.assertEquals(4.8f, sortedAverageList[0].getEconomy(), 0.0);
+			IplBowlingCsv[] sortedList = new Gson().fromJson(sortedCensusData, IplBowlingCsv[].class);
+
+			Assert.assertEquals(4.8f, sortedList[0].getEconomy(), 0.0);
 		} catch (IplAnalyserException e) {
 			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);
 		}
 	}
+
 	@Test
 	public void givenIplBowlingPlayerData_WhenSortedOnAverage_ShouldReturnSortedResult() {
 		try {

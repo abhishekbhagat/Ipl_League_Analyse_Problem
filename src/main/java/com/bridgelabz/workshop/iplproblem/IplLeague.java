@@ -58,6 +58,14 @@ public class IplLeague {
 		}
 	}
 
+	public String sortBowlerPlayerOnStrikeRateWith5w() throws IplAnalyserException {
+		if (bowlingList == null || bowlingList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(bowlingList, new SortingOnStrikeRateWith5wComparator());
+		String sortedPlayer = new Gson().toJson(bowlingList);
+		return sortedPlayer;
+	}
+
 	public String sortBowlerPlayerOnEconomy() throws IplAnalyserException {
 		if (bowlingList == null || bowlingList.size() == 0)
 			throw new IplAnalyserException("No Bowler Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
@@ -160,6 +168,23 @@ public class IplLeague {
 		}
 	}
 
+	public static class SortingOnStrikeRateWith5wComparator implements Comparator<IplBowlingCsv> {
+		@Override
+		public int compare(IplBowlingCsv player1, IplBowlingCsv player2) {
+
+			// for comparison
+			int strikeRateCompare = player1.getStrikeRate().compareTo(player2.getStrikeRate());
+			int fiveWicket = player1.getFivewicket().compareTo(player2.getFivewicket());
+
+			// 2-level comparison using if-else block
+			if (strikeRateCompare == 0) {
+				return ((fiveWicket == 0) ? strikeRateCompare : fiveWicket);
+			} else {
+				return strikeRateCompare;
+			}
+		}
+	}
+
 	public static class SortingOnBestStrikeRateWith6sComparator implements Comparator<IplBattingCsv> {
 		@Override
 		public int compare(IplBattingCsv customer1, IplBattingCsv customer2) {
@@ -193,4 +218,5 @@ public class IplLeague {
 			}
 		}
 	}
+
 }
