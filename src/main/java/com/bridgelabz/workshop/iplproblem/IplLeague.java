@@ -15,10 +15,6 @@ public class IplLeague {
 	private static List<IplBattingCsv> batsmanList = null;
 	private static List<IplBowlingCsv> bowlingList = null;
 
-	public static void main(String[] args) {
-
-	}
-
 	public int loadIplBowlingData(String csvFilePath) throws IplAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
 			bowlingList = new OpenCSVBuilder().getCSVFileList(reader, IplBowlingCsv.class);
@@ -61,6 +57,20 @@ public class IplLeague {
 				}
 			}
 		}
+	}
+
+	/**
+	 * uc15
+	 * 
+	 * @return
+	 * @throws IplAnalyserException
+	 */
+	public String sortPlayerOnMaximumHundredWithBestAverage() throws IplAnalyserException {
+		if (batsmanList == null || batsmanList.size() == 0)
+			throw new IplAnalyserException("No Batsman Data", IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM);
+		Collections.sort(batsmanList, new SortingOnMaximumHundredWithBestAverage());
+		String sortedPlayer = new Gson().toJson(batsmanList);
+		return sortedPlayer;
 	}
 
 	/**
@@ -244,6 +254,21 @@ public class IplLeague {
 		this.sortdesc(batsmanList, comparator);
 		String sortedAverageBatsman = new Gson().toJson(batsmanList);
 		return sortedAverageBatsman;
+	}
+
+	public static class SortingOnMaximumHundredWithBestAverage implements Comparator<IplBattingCsv> {
+		@Override
+		public int compare(IplBattingCsv player1, IplBattingCsv player2) {
+			int average = player1.getAverage().compareTo(player2.getAverage());
+			int hundred = player1.getHundred().compareTo(player2.getHundred());
+
+			// 2-level comparison using if-else block
+			if (hundred == 0) {
+				return ((average == 0) ? hundred : average);
+			} else {
+				return hundred;
+			}
+		}
 	}
 
 	public static class SortingBowlerPlayerOnWicketWithAverageComparator implements Comparator<IplBowlingCsv> {
