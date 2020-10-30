@@ -7,12 +7,17 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 
 public class IplLeague {
 	private static List<IplBattingCsv> batsmanList = null;
 	private static List<IplBowlingCsv> bowlingList = null;
+
+	public static void main(String[] args) {
+
+	}
 
 	public int loadIplBowlingData(String csvFilePath) throws IplAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
@@ -269,6 +274,19 @@ public class IplLeague {
 				return average;
 			}
 		}
+	}
+
+	public String findBestAllRounder() {
+		String bestAllRounderName = null;
+		for (IplBattingCsv batsman : batsmanList) {
+			for (IplBowlingCsv bowler : bowlingList) {
+				if (batsman.getPlayerName().equals(bowler.getPlayerName())) {
+					bestAllRounderName = batsman.getPlayerName();
+					return bestAllRounderName;
+				}
+			}
+		}
+		return bestAllRounderName;
 	}
 
 	public static class SortingOnMaximumRunWithBestAverageComparator implements Comparator<IplBattingCsv> {

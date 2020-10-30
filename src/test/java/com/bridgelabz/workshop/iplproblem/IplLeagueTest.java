@@ -8,7 +8,23 @@ import com.google.gson.Gson;
 public class IplLeagueTest {
 	public static final String IPL_BATTINGCV_FILE_PATH = "C:\\Users\\abhis\\eclipse-workspace\\workshop.iplproblem\\resource\\IPL2019FactsheetMostRuns.csv";
 	public static final String IPL_BOWLING_CSVFILE_PATH = "C:\\Users\\abhis\\eclipse-workspace\\workshop.iplproblem\\resource\\IPL2019FactsheetMostWkts.csv";
-    
+
+	/**
+	 * uc14
+	 */
+	@Test
+	public void givenIpLData_FindBestAllrounder_ShouldReturnNameOfPlayer() {
+		try {
+			IplLeague iplAnalyser = new IplLeague();
+			iplAnalyser.loadIplBattingData(IPL_BATTINGCV_FILE_PATH);
+			iplAnalyser.loadIplBowlingData(IPL_BOWLING_CSVFILE_PATH);
+			String bestAllrounder = iplAnalyser.findBestAllRounder();
+			Assert.assertEquals("Andre Russell", bestAllrounder);
+		} catch (IplAnalyserException e) {
+			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);
+		}
+	}
+
 	/**
 	 * uc13
 	 * 
@@ -30,7 +46,7 @@ public class IplLeagueTest {
 			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);
 		}
 	}
-	
+
 	@Test
 	public void givenIplBowlingPlayerData_WhenSortedOnWicketWithAverage_ShouldReturnSortedResult() {
 		try {
@@ -206,6 +222,6 @@ public class IplLeagueTest {
 		} catch (IplAnalyserException e) {
 			Assert.assertEquals(IplAnalyserException.ExceptionType.IPL_FILE_PROBLEM, e.type);
 		}
-	}
+	}*/
 
 }
